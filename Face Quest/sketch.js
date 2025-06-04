@@ -304,9 +304,9 @@ function move(){
     camera.off //deactivates camera control
 }
 
-function shootBullet(){ //causes bullets to spawn and move in the direction the player was looking
+function shootBullet(){ //causes bullets to spawn and move in the direction the player was looking, when left mouse released
     if(mouse.released()){
-        let b = new bullets.Sprite(player.x,player.y, 5,5)
+        let b = new bullets.Sprite(player.x,player.y , 5,5)
         b.direction = b.angleTo(mouse)
         b.speed = 7
         b.color = 'yellow'
@@ -331,5 +331,3 @@ function update(){
 			}
 		}
 }
-
-

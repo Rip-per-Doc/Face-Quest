@@ -24,7 +24,7 @@ function setup() {
     playerSpawn.physics = 'n'
 
     weapon = new class{
-        constructor(){
+        constructor(sizeX, sizeY, posX, posY, type, equipped){
             weapon.sizeX = this.sizeX,
             weapon.sizeY = this.sizeY,
             weapon.posX = this.posX,
@@ -47,11 +47,10 @@ function setup() {
             ammo = this.ammo
         }
         reload(){
-
         }
     }
     
-    rustyRevolver = new ranged(5, 5, player.x, player.y, semiAuto, true)
+    rustyRevolver = new ranged(5, 5, player.x, player.y, semiAuto, true, bullets, 7)
 
     class melee extends weapon{
         constructor(){

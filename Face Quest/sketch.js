@@ -24,12 +24,15 @@ function setup() {
     playerSpawn.physics = 'n'
 
     weapon = new class{
-        constructor(sizeX, sizeY, posX, posY, type, equipped){
+        constructor(sizeX, sizeY, posX, posY){
             weapon.sizeX = this.sizeX,
             weapon.sizeY = this.sizeY,
             weapon.posX = this.posX,
-            weapon.posY = this.posY,
-            equipped = this.equipped
+            weapon.posY = this.posY
+            this.sizeX = 5
+            this.sizeY = 5
+            this.posY = player.y
+            this.posX = player.x
         }
         attack(){
 
@@ -41,19 +44,25 @@ function setup() {
 
     
     class ranged extends weapon{
-        constructor(typeProjectile, ammo){
-            super(sizeX, sizeY, posX, posY, type, equipped)
+        constructor(typeProjectile, ammo, invSlot, equipped){
+            super(sizeX, sizeY, posX, posY)
             typeProjectile = this.typeProjectile
             ammo = this.ammo
+            invSlot = this.invSlot
+            equipped = this.equipped
         }
         reload(){
         }
     }
     
-    rustyRevolver = new ranged(5, 5, player.x, player.y, semiAuto, true, bullets, 7)
+    rustyRevolver = new ranged(bullet, 7, 1, true)
 
     class melee extends weapon{
-        constructor(){
+        constructor(range, invSlot, equipped){
+            super(sizeX, sizeY, posX, posY)
+            range = this.range
+            invSlot = this.invSlot
+            equipped = this.equipped
         }
         block(){
 
@@ -61,10 +70,12 @@ function setup() {
     }
 
     class magic extends weapon{
-        constructor(){
+        constructor(typeProjectile, effect, manaCost, magInvSlot){
+            super(sizeX, sizeY, posX, posY)
             typeProjectile = this.typeProjectile,
             effect = this.effect,
             manaCost = this.manaCost
+            magInvSlot = this.magInvSlot
         }
     }
 
@@ -353,39 +364,6 @@ function move(){
     }
     player.rotateMinTo(mouse,20) //makes sprite rotate in direction of mouse
     camera.off //deactivates camera control
-}
-
-//Shooting functions
-function shootWeaponSemi(){ //causes projectile dictated in weapon class to spawn and move in the direction the player was looking, when left mouse released
-    if(mouse.released()){
-        let p = new projectiles.Sprite(player.x,player.y , 5,5)
-        p.direction = p.angleTo(mouse) //makes bullets move in direction of mouse 
-        p.speed = 7
-        p.color = 'yellow'
-		
-	}
-
-}
-
-function shootWeaponFull(){ 
-}
-
-function shootWeaponBurst(){
-
-
-}
-
-function shootWeaponSpread(){ 
-}
-
-function shootWeaponMissile(){
-
-		
-}
-
-function shootWeaponFlame(){
-
-
 }
 
 function draw(){

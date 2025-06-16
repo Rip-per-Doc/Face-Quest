@@ -41,7 +41,7 @@ function setup() {
 
     
     class ranged extends weapon{
-        constructor(){
+        constructor(typeProjectile, ammo){
             super(sizeX, sizeY, posX, posY, type, equipped)
             typeProjectile = this.typeProjectile
             ammo = this.ammo

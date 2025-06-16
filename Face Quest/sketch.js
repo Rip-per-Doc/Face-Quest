@@ -8,7 +8,7 @@ function setup() {
 	new Canvas(1920, 1080);
 	displayMode('centered')
 
-	player = new Sprite(400,400,);
+	player = new Sprite(400,400);
 
 	projectiles = new Group()
 
@@ -23,60 +23,12 @@ function setup() {
     playerSpawn.tile = 'l'
     playerSpawn.physics = 'n'
 
-    weapon = new class{
-        constructor(sizeX, sizeY, posX, posY){
-            weapon.sizeX = this.sizeX,
-            weapon.sizeY = this.sizeY,
-            weapon.posX = this.posX,
-            weapon.posY = this.posY
-            this.sizeX = 5
-            this.sizeY = 5
-            this.posY = player.y
-            this.posX = player.x
-        }
-        attack(){
+    weapon = new Group()
+    weapon.attack()
 
-        }
-        equip(){
+    rustyRevolver = new weapon.Group()
+        attack()
 
-        }
-    }
-
-    
-    class ranged extends weapon{
-        constructor(typeProjectile, ammo, invSlot, equipped){
-            super(sizeX, sizeY, posX, posY)
-            typeProjectile = this.typeProjectile
-            ammo = this.ammo
-            invSlot = this.invSlot
-            equipped = this.equipped
-        }
-        reload(){
-        }
-    }
-    
-    rustyRevolver = new ranged(bullet, 7, 1, true)
-
-    class melee extends weapon{
-        constructor(range, invSlot, equipped){
-            super(sizeX, sizeY, posX, posY)
-            range = this.range
-            invSlot = this.invSlot
-            equipped = this.equipped
-        }
-        block(){
-
-        }
-    }
-
-    class magic extends weapon{
-        constructor(typeProjectile, effect, manaCost, magInvSlot){
-            super(sizeX, sizeY, posX, posY)
-            typeProjectile = this.typeProjectile,
-            effect = this.effect,
-            manaCost = this.manaCost
-            magInvSlot = this.magInvSlot
-        }
     }
 
 
@@ -330,7 +282,7 @@ function setup() {
 "..........................................................................................................................................................................................................................................................",
 "..........................................................................................................................................................................................................................................................",
 "..........................................................................................................................................................................................................................................................",],0,0,32,32)
-}
+
 
 function preload(){
 

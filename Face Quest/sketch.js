@@ -3,12 +3,14 @@ let bullets, arrows, missiles, flames, explosion;
 let broadSword, shortSword, ZweiHander, fireAxe, battleAxe, hatchet, wingedSpear, katana, dagger, knife
 let devRoom, Lvl1, Lvl2, Lvl3, Lvl4
 let walls
-
+let currentWeapon;
 function setup() {
 	new Canvas(1920, 1080);
 	displayMode('centered')
 
 	player = new Sprite(400,400);
+    player.h = 28
+    player.w = 28
 
 	projectiles = new Group()
 
@@ -24,15 +26,93 @@ function setup() {
     playerSpawn.physics = 'n'
 
     weapon = new Group()
-    weapon.attack()
+    weapon.type = ''
+
 
     rustyRevolver = new weapon.Group()
-        attack()
+    rustyRevolver.type = 'single'
 
+    rustyShotgun = new weapon.Group()
+    rustyShotgun.type = 'blast'
+    
+
+    currentWeapon = new rustyRevolver.Sprite() // test
+    currentWeapon.x = player.x
+
+    heldWeapon = new GlueJoint(currentWeapon,player)
+
+
+	devRoom = new Tiles(levels[0],0,0,32,32)
     }
 
+function preload(){
 
-	devRoom = new Tiles(["..........................................................................................................................................................................................................................................................",
+}
+
+function move(){
+    camera.on //activates camera control 
+    camera.x = player.x //makes camera follow player horizontally
+    camera.y = player.y //makes camera follow player vertically
+    if (kb.pressing('a')){
+        player.vel.x = -2
+    }
+    else if(kb.pressing('d')){
+        player.vel.x = 2
+    }
+   
+    else{
+        player.vel.x = 0
+    }
+   
+    if(kb.pressing('w')){
+        player.vel.y = -2
+    }
+   
+    else if(kb.pressing('s')){
+        player.vel.y = 2
+    }
+   
+    else{
+        player.vel.y = 0
+    }
+    if (mouse.pressed()){
+        attack()
+    }
+    player.rotateMinTo(mouse,20) //makes sprite rotate in direction of mouse
+    camera.off //deactivates camera control
+}
+
+function attack(){
+    if(currentWeapon.type == 'single'){
+        if (mouse.pressed()){    
+            let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+            p.direction = p.angleTo(mouse)
+            p.speed = 7
+            p.color = 'yellow'
+        }
+        
+    }
+}
+function draw(){
+	background('black');
+
+}
+
+function update(){
+	move()
+    attack()
+	for (p of projectiles){
+		for (w of walls){
+			if (p.collides(w)){
+				p.remove()
+			}
+		}
+	}
+}
+
+
+let levels = [
+    ["..........................................................................................................................................................................................................................................................",
 "..........................................................................................................................................................................................................................................................",
 "..........................................................................................................................................................................................................................................................",
 "..........................................................................................................................................................................................................................................................",
@@ -281,55 +361,6 @@ function setup() {
 "..........................................................................................................................................................................................................................................................",
 "..........................................................................................................................................................................................................................................................",
 "..........................................................................................................................................................................................................................................................",
-"..........................................................................................................................................................................................................................................................",],0,0,32,32)
+"..........................................................................................................................................................................................................................................................",],0,0,32,32
 
-
-function preload(){
-
-}
-
-function move(){
-    camera.on //activates camera control 
-    camera.x = player.x //makes camera follow player horizontally
-    camera.y = player.y //makes camera follow player vertically
-    if (kb.pressing('a')){
-        player.vel.x = -2
-    }
-    else if(kb.pressing('d')){
-        player.vel.x = 2
-    }
-   
-    else{
-        player.vel.x = 0
-    }
-   
-    if(kb.pressing('w')){
-        player.vel.y = -2
-    }
-   
-    else if(kb.pressing('s')){
-        player.vel.y = 2
-    }
-   
-    else{
-        player.vel.y = 0
-    }
-    player.rotateMinTo(mouse,20) //makes sprite rotate in direction of mouse
-    camera.off //deactivates camera control
-}
-
-function draw(){
-	background('black');
-
-}
-
-function update(){
-	move()
-	for (p of projectiles){
-		for (w of walls){
-			if (p.collides(w)){
-				p.remove()
-			}
-		}
-	}
-}
+]

@@ -31,6 +31,9 @@ function setup() {
 
     rustyRevolver = new weapon.Group()
     rustyRevolver.type = 'single'
+    rustyRevolver.img = 'rustyRevolver.png'
+    rustyRevolver.h = 32
+    rustyRevolver.w = 32
 
     rustyShotgun = new weapon.Group()
     rustyShotgun.type = 'blast'
@@ -38,6 +41,7 @@ function setup() {
 
     currentWeapon = new rustyRevolver.Sprite() // test
     currentWeapon.x = player.x
+    currentWeapon.physics = 'n'
 
     heldWeapon = new GlueJoint(currentWeapon,player)
 
@@ -46,7 +50,7 @@ function setup() {
     }
 
 function preload(){
-
+    loadImage('rustyRevolver.png')
 }
 
 function move(){
@@ -83,13 +87,11 @@ function move(){
 }
 
 function attack(){
-    if(currentWeapon.type == 'single'){
-        if (mouse.pressed()){    
-            let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
-            p.direction = p.angleTo(mouse)
-            p.speed = 7
-            p.color = 'yellow'
-        }
+    if(currentWeapon.type == 'single'){    
+        let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+        p.direction = p.angleTo(mouse)
+        p.speed = 7
+        p.color = 'yellow'
         
     }
 }
@@ -100,7 +102,6 @@ function draw(){
 
 function update(){
 	move()
-    attack()
 	for (p of projectiles){
 		for (w of walls){
 			if (p.collides(w)){

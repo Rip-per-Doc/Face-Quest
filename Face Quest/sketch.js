@@ -32,16 +32,16 @@ function setup() {
     rustyRevolver = new weapon.Group()
     rustyRevolver.type = 'single'
     rustyRevolver.img = 'rustyRevolver.png'
-    rustyRevolver.h = 32
-    rustyRevolver.w = 32
+    rustyRevolver.image.scale = 2
 
     rustyShotgun = new weapon.Group()
     rustyShotgun.type = 'blast'
     
 
     currentWeapon = new rustyRevolver.Sprite() // test
-    currentWeapon.x = player.x
-    currentWeapon.physics = 'n'
+    currentWeapon.x = player.x + 28
+    currentWeapon.y = player.y
+    currentWeapon.physics = 'd'
 
     heldWeapon = new GlueJoint(currentWeapon,player)
 

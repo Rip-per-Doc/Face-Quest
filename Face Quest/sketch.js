@@ -11,7 +11,7 @@ function setup() {
 	player = new Sprite(400,400);
     player.h = 28
     player.w = 28
-    player.physics = 'n'
+    player.physics = 'd'
 
 	projectiles = new Group()
 
@@ -43,11 +43,12 @@ function setup() {
     currentWeapon.x = player.x + 40
     currentWeapon.y = player.y
     currentWeapon.physics = 'd'
-    currentWeapon.direction = currentWeapon.angleTo(mouse)
+    currentWeapon.rotateMinTo(mouse, 20)
     currentWeapon.moveTowards(mouse)
+    
 
-    weaponJoint = new WheelJoint(currentWeapon, player)
-    weaponJoint.maxStrength = 0.1
+    weaponJoint = new WheelJoint(player, currentWeapon)
+    weaponJoint.maxStrength = 0.25
 
 
 

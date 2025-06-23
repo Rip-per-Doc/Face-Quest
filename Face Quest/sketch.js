@@ -11,6 +11,7 @@ function setup() {
 	player = new Sprite(400,400);
     player.h = 28
     player.w = 28
+    player.physics = 'n'
 
 	projectiles = new Group()
 
@@ -39,11 +40,17 @@ function setup() {
     
 
     currentWeapon = new rustyRevolver.Sprite() // test
-    currentWeapon.x = player.x + 28
+    currentWeapon.x = player.x + 40
     currentWeapon.y = player.y
     currentWeapon.physics = 'd'
+    currentWeapon.direction = currentWeapon.angleTo(mouse)
+    currentWeapon.moveTowards(mouse)
 
-    heldWeapon = new GlueJoint(currentWeapon,player)
+    weaponJoint = new WheelJoint(currentWeapon, player)
+    weaponJoint.maxStrength = 0.1
+
+
+
 
 
 	devRoom = new Tiles(levels[0],0,0,32,32)
@@ -82,7 +89,6 @@ function move(){
     if (mouse.pressed()){
         attack()
     }
-    player.rotateMinTo(mouse,20) //makes sprite rotate in direction of mouse
     camera.off //deactivates camera control
 }
 

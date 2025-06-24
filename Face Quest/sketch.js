@@ -12,6 +12,7 @@ function setup() {
     player.h = 28
     player.w = 28
     player.physics = 'd'
+    player.direction = 0
 
 	projectiles = new Group()
     projectiles.speed = 7
@@ -33,7 +34,7 @@ function setup() {
 
 
     rustyRevolver = new weapon.Group()
-    rustyRevolver.type = 'burst'
+    rustyRevolver.type = 'blast'
     rustyRevolver.img = 'rustyRevolver.png'
     rustyRevolver.image.scale = 2
 
@@ -49,7 +50,7 @@ function setup() {
     currentWeapon.moveTowards(mouse)
     
 
-    weaponJoint = new WheelJoint(player, currentWeapon)
+    weaponJoint = new GlueJoint(player, currentWeapon)
     weaponJoint.maxStrength = 0.25
 
 
@@ -95,34 +96,26 @@ function move(){
 
 async function attack(){
     if(currentWeapon.type == 'single'){    
-        let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+        let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
         p.direction = p.angleTo(mouse)
-        p.speed = 7
         p.color = 'yellow'
     }
     
     if(currentWeapon.type == 'blast'){    
-        let a = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
-        a.direction = a.angleTo(mouse)
-        let b = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
-        b.direction = b.angleTo(mouse)+ random(1,10)
-        let c = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
-        c.direction = c.angleTo(mouse)+ random(1,5)
-        let d = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
-        d.direction = d.angleTo(mouse)- random(1,10)
-        let e = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
-        e.direction = e.angleTo(mouse)- random(1,5)
-        
+        for(i=0; i< currentWeapon.bullets; i++){
+            let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
+            p.direction = p.angleTo(mouse) 
+        }
     }
     
     if(currentWeapon.type == 'burst'){    
-    let a = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+    let a = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
     a.direction = a.angleTo(mouse)
     await delay(250)
-    let b = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+    let b = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
     b.direction = b.angleTo(mouse)
     await delay(250)
-    let c = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+    let c = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
     c.direction = c.angleTo(mouse)
     }
 }

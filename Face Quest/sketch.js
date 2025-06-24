@@ -14,6 +14,8 @@ function setup() {
     player.physics = 'd'
 
 	projectiles = new Group()
+    projectiles.speed = 7
+    projectiles.color = 'yellow'
 
 	walls = new Group()
 	walls.w = 32 // sets sprite width
@@ -31,7 +33,7 @@ function setup() {
 
 
     rustyRevolver = new weapon.Group()
-    rustyRevolver.type = 'single'
+    rustyRevolver.type = 'burst'
     rustyRevolver.img = 'rustyRevolver.png'
     rustyRevolver.image.scale = 2
 
@@ -49,8 +51,6 @@ function setup() {
 
     weaponJoint = new WheelJoint(player, currentWeapon)
     weaponJoint.maxStrength = 0.25
-
-
 
 
 
@@ -93,15 +93,40 @@ function move(){
     camera.off //deactivates camera control
 }
 
-function attack(){
+async function attack(){
     if(currentWeapon.type == 'single'){    
         let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
         p.direction = p.angleTo(mouse)
         p.speed = 7
         p.color = 'yellow'
+    }
+    
+    if(currentWeapon.type == 'blast'){    
+        let a = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+        a.direction = a.angleTo(mouse)
+        let b = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+        b.direction = b.angleTo(mouse)+ random(1,10)
+        let c = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+        c.direction = c.angleTo(mouse)+ random(1,5)
+        let d = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+        d.direction = d.angleTo(mouse)- random(1,10)
+        let e = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+        e.direction = e.angleTo(mouse)- random(1,5)
         
     }
+    
+    if(currentWeapon.type == 'burst'){    
+    let a = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+    a.direction = a.angleTo(mouse)
+    delay()
+    let b = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+    b.direction = b.angleTo(mouse)
+    delay()
+    let c = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
+    c.direction = c.angleTo(mouse)
+    }
 }
+
 function draw(){
 	background('black');
 

@@ -12,7 +12,7 @@ function setup() {
     player.h = 28
     player.w = 28
     player.physics = 'd'
-    player.direction = 0
+    
 
 	projectiles = new Group()
     projectiles.speed = 7
@@ -37,6 +37,7 @@ function setup() {
     rustyRevolver.type = 'blast'
     rustyRevolver.img = 'rustyRevolver.png'
     rustyRevolver.image.scale = 2
+    rustyRevolver.bullets = 300
 
     rustyShotgun = new weapon.Group()
     rustyShotgun.type = 'blast'
@@ -46,12 +47,11 @@ function setup() {
     currentWeapon.x = player.x + 40
     currentWeapon.y = player.y
     currentWeapon.physics = 'd'
-    currentWeapon.rotateMinTo(mouse, 20)
-    currentWeapon.moveTowards(mouse)
+    
     
 
-    weaponJoint = new GlueJoint(player, currentWeapon)
-    weaponJoint.maxStrength = 0.25
+    weaponJoint = new RopeJoint(player, currentWeapon)
+    weaponJoint.maxStrength = 0
 
 
 
@@ -104,7 +104,7 @@ async function attack(){
     if(currentWeapon.type == 'blast'){    
         for(i=0; i< currentWeapon.bullets; i++){
             let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
-            p.direction = p.angleTo(mouse) 
+            p.direction = p.angleTo(mouse) + random(-20, 20)
         }
     }
     
@@ -127,6 +127,8 @@ function draw(){
 
 function update(){
 	move()
+    currentWeapon.rotateMinTo(mouse,20)
+    currentWeapon.moveTo(mouse, 5)
 	for (p of projectiles){
 		for (w of walls){
 			if (p.collides(w)){

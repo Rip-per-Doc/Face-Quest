@@ -118,10 +118,10 @@ async function attack(){
     if(currentWeapon.type == 'burst'){    
     let a = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
     a.direction = a.angleTo(mouse)
-    delay()
+    await delay(250)
     let b = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
     b.direction = b.angleTo(mouse)
-    delay()
+    await delay(250)
     let c = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 5,5)
     c.direction = c.angleTo(mouse)
     }

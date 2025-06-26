@@ -29,28 +29,52 @@ function setup() {
     playerSpawn.tile = 'l'
     playerSpawn.physics = 'n'
 
+
     weapon = new Group()
     weapon.type = ''
+    weapon.id = ''
+
+    
+
+    inventory = new Group()
+    //declaring WEAPON inventory slots within the group
+    inventory.Wslot1 = '1'
+    inventory.Wslot2 = '2'
+    inventory.Wslot3 = ''
+    //declaring MAGIC weapon slots within the froup
+    inventory.Mslot1 = ''
+    inventory.Mslot2 = ''
+    inventory.Mslot3 = ''
+    inventory.Mslot4 = ''
 
 
+    
     rustyRevolver = new weapon.Group()
-    rustyRevolver.type = 'blast'
+    rustyRevolver.type = 'burst'
     rustyRevolver.img = 'rustyRevolver.png'
     rustyRevolver.image.scale = 2
-    rustyRevolver.bullets = 300
+    rustyRevolver.bullets = 3
+    rustyRevolver.id = 1
 
     rustyShotgun = new weapon.Group()
     rustyShotgun.type = 'blast'
+    rustyShotgun.spreadLow = -35
+    rustyShotgun.spreadHigh = 35
+    rustyShotgun.img = 'na.png'
+    rustyShotgun.image.scale = 2
+    rustyShotgun.bullets = 5
+    rustyShotgun.id = 2
+
+    //heldWeapon is used to define the physical object of the weapon, while equippedWeapon is used to determine weapon statistics
+    equippedWeapon = rustyRevolver
+    heldWeapon = new equippedWeapon.Sprite() // test
+    heldWeapon.x = player.x + 40
+    heldWeapon.y = player.y
+    heldWeapon.physics = 'd'
+    
     
 
-    currentWeapon = new rustyRevolver.Sprite() // test
-    currentWeapon.x = player.x + 40
-    currentWeapon.y = player.y
-    currentWeapon.physics = 'd'
-    
-    
-
-    weaponJoint = new RopeJoint(player, currentWeapon)
+    weaponJoint = new RopeJoint(player, equippedWeapon)
     weaponJoint.maxStrength = 0
 
 
@@ -60,6 +84,7 @@ function setup() {
 
 function preload(){
     loadImage('rustyRevolver.png')
+    loadImage('na.png')
 }
 
 function move(){
@@ -94,50 +119,56 @@ function move(){
     camera.off //deactivates camera control
 }
 
+function equip(){//if blah blah pressed, equip weapon where weapon id = id in inventory slot
+    if (keyboard.pressed('1')){
+        equippedWeapon.id =  inventory.Wslot1
+    }
+    if (keyboard.pressed('2')){
+        equippedWeapon.id =  inventory.Wslot1
+    }
+}
+
 async function attack(){
-    if(currentWeapon.type == 'single'){    
-        let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
+    if(equippedWeapon.type == 'single'){   //causes weapon to fire one projectile in direction of the mouse 
+        let p = new projectiles.Sprite(equippedWeapon.x,equippedWeapon.y, 7,7)
         p.direction = p.angleTo(mouse)
         p.color = 'yellow'
     }
     
-    if(currentWeapon.type == 'blast'){    
-        for(i=0; i< currentWeapon.bullets; i++){
-            let p = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
-            p.direction = p.angleTo(mouse) + random(-20, 20)
+    if(equippedWeapon.type == 'blast'){  //causes weapon to fire a clump of bullets in a random direction (lower and upper bounds dictated in individual weapon group), but still towards the mouse
+        for(i=0; i< equippedWeapon.bullets; i++){
+            let p = new projectiles.Sprite(equippedWeapon.x,equippedWeapon.y, 7,7)
+            p.direction = p.angleTo(mouse) + random(equippedWeapon.spreadLow, equippedWeapon.spreadHigh)
         }
     }
     
-    if(currentWeapon.type == 'burst'){    
-    let a = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
-    a.direction = a.angleTo(mouse)
-    await delay(250)
-    let b = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
-    b.direction = b.angleTo(mouse)
-    await delay(250)
-    let c = new projectiles.Sprite(currentWeapon.x,currentWeapon.y, 7,7)
-    c.direction = c.angleTo(mouse)
+    if(equippedWeapon.type == 'burst'){  //causes weapon to fire a short barrage towards the mouse, but with a small time between each shot 
+        for(i=0; i< equippedWeapon.bullets; i++){
+            let p = new projectiles.Sprite(equippedWeapon.x,equippedWeapon.y, 7,7)
+            p.direction = p.angleTo(mouse)
+            await delay(equippedWeapon.burstSpeed)
+        }
     }
 }
 
 function draw(){
 	background('black');
 
-}
+    }
 
 function update(){
 	move()
-    currentWeapon.rotateMinTo(mouse,20)
-    currentWeapon.moveTo(mouse, 5)
+    equip()
+    heldWeapon.rotateMinTo(mouse,20)
+    heldWeapon.moveTo(mouse, 5)
 	for (p of projectiles){
 		for (w of walls){
 			if (p.collides(w)){
 				p.remove()
-			}
-		}
-	}
-}
-
+			    }
+		    }
+	    }
+    }
 
 let levels = [
     ["..........................................................................................................................................................................................................................................................",

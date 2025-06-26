@@ -34,12 +34,12 @@ function setup() {
     weapon.type = ''
     weapon.id = ''
 
-    
+
 
     inventory = new Group()
     //declaring WEAPON inventory slots within the group
-    inventory.Wslot1 = '1'
-    inventory.Wslot2 = '2'
+    inventory.Wslot1 = '0'
+    inventory.Wslot2 = '1'
     inventory.Wslot3 = ''
     //declaring MAGIC weapon slots within the froup
     inventory.Mslot1 = ''
@@ -47,15 +47,15 @@ function setup() {
     inventory.Mslot3 = ''
     inventory.Mslot4 = ''
 
-
+    const weapons = []
     
+    let rustyRevolver = weapons[0]
     rustyRevolver = new weapon.Group()
-    rustyRevolver.type = 'burst'
+    rustyRevolver.type = 'single'
     rustyRevolver.img = 'rustyRevolver.png'
     rustyRevolver.image.scale = 2
-    rustyRevolver.bullets = 3
-    rustyRevolver.id = 1
 
+    let rustyShotgun = weapons[1]
     rustyShotgun = new weapon.Group()
     rustyShotgun.type = 'blast'
     rustyShotgun.spreadLow = -35
@@ -63,7 +63,6 @@ function setup() {
     rustyShotgun.img = 'na.png'
     rustyShotgun.image.scale = 2
     rustyShotgun.bullets = 5
-    rustyShotgun.id = 2
 
     //heldWeapon is used to define the physical object of the weapon, while equippedWeapon is used to determine weapon statistics
     equippedWeapon = rustyRevolver
@@ -74,7 +73,7 @@ function setup() {
     
     
 
-    weaponJoint = new RopeJoint(player, equippedWeapon)
+    weaponJoint = new RopeJoint(player, heldWeapon)
     weaponJoint.maxStrength = 0
 
 
